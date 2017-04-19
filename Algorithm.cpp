@@ -15,7 +15,7 @@ int color_info = 0;
 int no_of_branches = 0;
 int no_of_branches2 = 0;
 
-void RobotMove(int board[6][6]);
+Point RobotMove(int board[6][6]);
 void DrawTable(int board[6][6]);
 int win(int board[6][6]);
 void PlayerMove(int board[6][6]);
@@ -29,29 +29,9 @@ int main( int argc, char** argv )
 {
   
 	int board[6][6] = {{0,0,0,0,0,0},{2,0,0,0,0,0},{2,2,0,0,0,0},{2,2,2,0,0,0},{2,2,2,2,0,0},{2,2,2,2,2,0}} ;
-	cout<<"Do you want to play first or second?"<<endl;
-	cout<<"Write 1 to play first and 2 to play second"<<endl;
-  	int player = 0;
-  	cin >> player;
-  	for (int turn=0; turn<21 and win(board) == 0;turn++){
-  		cout<<"Turn: "<<turn+1<<endl;
-  		if ((turn+player)%2 ==0) {
-  			DrawTable(board);
-  			cout<<"Algotihm 1 is playing. "<<endl;
-  			RobotMove(board);
-  			
-  		}
-  		else{
-  			DrawTable(board);
-  			cout<<"Algotihm 2 is playing. "<<endl;
-  			PlayerMove(board);
-  			
-  		}
-	}
-	
-	DrawTable(board);
-	cout<<win(board)<<" wins"<<endl;
-  	waitKey(0);
+	Point a = RobotMove(board);
+	cout<<"X: "<<a.x<<endl;
+	cout<<"Y: "<<a.y<<endl;
 
   	time_t start,end;
   	time (&start);
@@ -65,7 +45,16 @@ int main( int argc, char** argv )
 }
 
 
-void RobotMove(int board[6][6]){
+Point RobotMove(int board[6][6]){
+	//Special cases:
+	int count_moves = 0;
+	for (int i=0; i<6; i++){
+		if (board[i][5] != 0) count_moves++;
+	}
+	if (count_moves == 0 or count_moves == 1){
+		if (board[2][5] == 0) return Point(2,5);
+		else return Point(3,5);
+	}
 	int player = 1;
 	int move_i = -1;
 	int move_j = -1;
@@ -90,7 +79,8 @@ void RobotMove(int board[6][6]){
 
 		}
 	}
-	board[move_i][move_j] = player;
+	//board[move_i][move_j] = player;
+	return Point(move_i,move_j);
 
 }
 
