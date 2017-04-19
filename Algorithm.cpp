@@ -73,7 +73,7 @@ void RobotMove(int board[6][6]){
 	no_of_branches = 0;
 	for (int i=0; i<6;i++){
 		for (int j=0; j<6;j++){
-			if (board[i][j] == 0 and (i==5 or ((board[i][j+1]!=0) and (board[i+1][j+1]!=0) ))) {
+			if (board[i][j] == 0 and (j==5 or ((board[i][j+1]!=0) and (board[i+1][j+1]!=0) ))) {
 				board[i][j] = player;
 				double thisScore = GetScore(board, player*-1);
 				thisScore /= no_of_branches;
@@ -103,7 +103,7 @@ int GetScore(int board[6][6], int player){
 	else
 		for (int i=0; i<6 ;i++){
 			for (int j=0; j<6;j++){
-				if (board[i][j] == 0 and (i==5 or ((board[i][j+1]!=0) and (board[i+1][j+1]!=0) ))) {
+				if (board[i][j] == 0 and (j==5 or ((board[i][j+1]!=0) and (board[i+1][j+1]!=0) ))) {
 					board[i][j] = player;
 					counter++;
 					score = score + GetScore(board, player*-1);
@@ -125,7 +125,7 @@ int GetScore2(int board[6][6], int player){
 	else
 		for (int i=0; i<6 ;i++){
 			for (int j=0; j<6;j++){
-				if (board[i][j] == 0 and (i==5 or ((board[i][j+1]!=0) and (board[i+1][j+1]!=0) ))) {
+				if (board[i][j] == 0 and (j==5 or ((board[i][j+1]!=0) and (board[i+1][j+1]!=0) ))) {
 					board[i][j] = player;
 					score = score + GetScore2(board, player*-1);
 					board[i][j] = 0;
@@ -230,7 +230,7 @@ void PlayerMove(int board[6][6]) {
         cout<<"your"<<move_j;
         cout<<"\n"<<"What's your move x axis?"<<"\n"<<"> ";
         cin >> move_i;
-    	if (board[move_i][move_j] == 0 and (move_i==5 or ((board[move_i][move_j+1]!=0) and (board[move_i+1][move_j+1]!=0) ))){
+    	if (board[move_i][move_j] == 0 and (move_j==5 or ((board[move_i][move_j+1]!=0) and (board[move_i+1][move_j+1]!=0) ))){
     		board[move_i][move_j] = -1;
     		break;
     	}
