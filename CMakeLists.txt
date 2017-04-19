@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8)
+project( Algorithm )
+find_package( OpenCV REQUIRED )
+add_executable( exec Algorithm.cpp )
+target_link_libraries( exec ${OpenCV_LIBS} )
