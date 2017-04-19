@@ -12,14 +12,16 @@ using namespace std;
 
 int out_matrix[7][7];
 int color_info = 0;
+int no_of_branches = 0;
+int no_of_branches2 = 0;
 
-int minimax(int board[6][6], int player);
+void RobotMove(int board[6][6]);
 void DrawTable(int board[6][6]);
 int win(int board[6][6]);
 void PlayerMove(int board[6][6]);
-void RobotMove(int board[6][6]);
 
-
+int GetScore(int board[6][6], int player);
+int GetScore2(int board[6][6], int player);
 
 
 /** @function main */
@@ -32,17 +34,23 @@ int main( int argc, char** argv )
   	int player = 0;
   	cin >> player;
   	for (int turn=0; turn<21 and win(board) == 0;turn++){
-  		cout<<"Turn is "<<turn<<endl;
+  		cout<<"Turn: "<<turn+1<<endl;
   		if ((turn+player)%2 ==0) {
+  			DrawTable(board);
+  			cout<<"Algotihm 1 is playing. "<<endl;
   			RobotMove(board);
+  			
   		}
   		else{
   			DrawTable(board);
+  			cout<<"Algotihm 2 is playing. "<<endl;
   			PlayerMove(board);
+  			
   		}
 	}
-	if (win(board)==1) cout<<"Robot wins!"<<endl;
-	else if (win(board)==-1) cout<<"Robot loses!"<<endl;
+	
+	DrawTable(board);
+	cout<<win(board)<<" wins"<<endl;
   	waitKey(0);
 
   	time_t start,end;
@@ -57,33 +65,77 @@ int main( int argc, char** argv )
 }
 
 
-int minimax(int board[6][6], int player){
-	int winner = win(board);
-	if (winner!=0) return winner*player;
-
+void RobotMove(int board[6][6]){
+	int player = 1;
 	int move_i = -1;
 	int move_j = -1;
-	int score = -2;
+	double score = 0;
+	no_of_branches = 0;
 	for (int i=0; i<6;i++){
 		for (int j=0; j<6;j++){
 			if (board[i][j] == 0 and (i==5 or ((board[i][j+1]!=0) and (board[i+1][j+1]!=0) ))) {
 				board[i][j] = player;
-				int thisScore = -minimax(board, player*-1);
+				double thisScore = GetScore(board, player*-1);
+				thisScore /= no_of_branches;
+				no_of_branches = 0;
+				cout<<thisScore<<endl;
 				if (thisScore > score){
 					score = thisScore;
 					move_i = i;
 					move_j = j;
 				}
+
 				board[i][j] = 0;
 			}
 
 		}
 	}
-	if (move_i == -1) return 0;
-	return score;
+	board[move_i][move_j] = player;
 
 }
 
+int GetScore(int board[6][6], int player){
+
+	int score = 0;
+	int counter = 0;
+	if (win(board)==1) { no_of_branches++;return 1;}
+	else if (win(board)==-1) { no_of_branches++;return 0;}
+	else
+		for (int i=0; i<6 ;i++){
+			for (int j=0; j<6;j++){
+				if (board[i][j] == 0 and (i==5 or ((board[i][j+1]!=0) and (board[i+1][j+1]!=0) ))) {
+					board[i][j] = player;
+					counter++;
+					score = score + GetScore(board, player*-1);
+					board[i][j] = 0;
+				}
+
+			}
+		}
+	if (counter == 0) no_of_branches++;
+	return score;
+
+}
+int GetScore2(int board[6][6], int player){
+	int score = 0;
+	if (win(board)==1) {return 0;}
+	//if (win(board)==1) {no_of_branches2++;return 0;}
+	else if (win(board)==-1) {return 1;}
+	//else if (win(board)==-1) {no_of_branches2++;return 1;}
+	else
+		for (int i=0; i<6 ;i++){
+			for (int j=0; j<6;j++){
+				if (board[i][j] == 0 and (i==5 or ((board[i][j+1]!=0) and (board[i+1][j+1]!=0) ))) {
+					board[i][j] = player;
+					score = score + GetScore2(board, player*-1);
+					board[i][j] = 0;
+				}
+
+			}
+		}
+	return score;
+
+}
 
 void DrawTable(int board[6][6]){
 	//cout<<"X";
@@ -140,32 +192,37 @@ int win(int board[6][6]){
 	return 0;
 }
 
-void RobotMove(int board[6][6]){
-	int move_i = -1;
+
+
+void PlayerMove(int board[6][6]) {
+	/*
+	int player = -1;
+    int move_i = -1;
 	int move_j = -1;
-	int score = -2;
+	double score = 0;
+	no_of_branches2 = 0;
 	for (int i=0; i<6;i++){
 		for (int j=0; j<6;j++){
-			if (board[i][j] == 0 and (i==5 or ((board[i][j+1] != 0) and (board[i+1][j+1] != 0))  )){
-				board[i][j] = 1;
-				int tempScore = -minimax(board, -1);
-				board[i][j] = 0;
-				if (tempScore > score){
-					score = tempScore;
+			if (board[i][j] == 0 and (i==5 or ((board[i][j+1]!=0) and (board[i+1][j+1]!=0) ))) {
+				board[i][j] = player;
+				double thisScore = GetScore2(board, player*-1);
+				//thisScore /= no_of_branches2;
+				//no_of_branches2 = 0;
+				cout<<thisScore<<endl;
+				if (thisScore > score){
+					score = thisScore;
 					move_i = i;
 					move_j = j;
 				}
-				
+
+				board[i][j] = 0;
 			}
 
 		}
 	}
-	board[move_i][move_j] = 1;
-}
-
-
-void PlayerMove(int board[6][6]) {
-    int move_i = 0;
+	board[move_i][move_j] = player;
+	*/
+	int move_i = 0;
     int move_j = 0;
     while (true) {
         cout<<"What's your move y axis?"<<"\n"<<"> ";
