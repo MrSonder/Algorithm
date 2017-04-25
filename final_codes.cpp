@@ -1,6 +1,13 @@
 // Game Algorithm
 // Use: Point a = GiveNextMove(blocks);
 // a.x and a.y will be used to extract axes.
+
+Point GiveNextMove(vector<vector<int>> blocks);
+Point RobotMove(int board[6][6]);
+int GetScore(int board[6][6], int player);
+int win(int board[6][6]);
+Mat MaskForTriangle(Mat input);
+
 int board[6][6] = {{0,0,0,0,0,0},{2,0,0,0,0,0},{2,2,0,0,0,0},{2,2,2,0,0,0},{2,2,2,2,0,0},{2,2,2,2,2,0}} ;
 int no_of_branches = 0;
 
