@@ -19,6 +19,7 @@ Point RobotMove(int board[6][6]);
 void DrawTable(int board[6][6]);
 int win(int board[6][6]);
 void PlayerMove(int board[6][6]);
+void FormatBoard(vector<vector<int>> blocks);
 
 int GetScore(int board[6][6], int player);
 int GetScore2(int board[6][6], int player);
@@ -29,6 +30,7 @@ int main( int argc, char** argv )
 {
   
 	int board[6][6] = {{0,0,0,0,0,0},{2,0,0,0,0,0},{2,2,0,0,0,0},{2,2,2,0,0,0},{2,2,2,2,0,0},{2,2,2,2,2,0}} ;
+	DrawTable(board);
 	Point a = RobotMove(board);
 	cout<<"X: "<<a.x<<endl;
 	cout<<"Y: "<<a.y<<endl;
@@ -43,6 +45,18 @@ int main( int argc, char** argv )
 	  
   	return 0;
 }
+
+void FormatBoard(vector<vector<int>> blocks){
+	for (int i=0; i<blocks.size();i++){
+		int pos_x = blocks[i][0];
+		int pos_y = 5 - blocks[i][1];
+		int color = blocks[i][2];
+		board[pos_x][pos_y] = color;
+
+		}
+}
+
+
 
 
 Point RobotMove(int board[6][6]){
