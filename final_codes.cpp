@@ -5,6 +5,12 @@ int board[6][6] = {{0,0,0,0,0,0},{2,0,0,0,0,0},{2,2,0,0,0,0},{2,2,2,0,0,0},{2,2,
 int no_of_branches = 0;
 
 Point GiveNextMove(vector<vector<int>> blocks){
+	for (int i=0; i<6;i++){
+		for (int j=0; j<6;j++){
+			board[i][j]=0;
+		}
+	}
+
 	for (int i=0; i<blocks.size();i++){
 		int pos_x = blocks[i][0];
 		int pos_y = 5 - blocks[i][1];
